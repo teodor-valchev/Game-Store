@@ -1,8 +1,8 @@
 {
   "name": "game-store",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Game store application",
+  "main": "src/app.js",
   "scripts": {
     "start": "nodemon src/app.js"
   },
@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.19.2",
-    "express-handlebars": "^7.1.2"
+    "express-handlebars": "^7.1.2",
+    "mongoose": "^8.4.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
