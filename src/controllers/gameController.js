@@ -1,4 +1,4 @@
-const { createGame, getAll } = require("../services/gameService");
+const { createGame, getAll, getGame } = require("../services/gameService");
 
 const router = require("express").Router();
 
@@ -24,6 +24,13 @@ router.post("/create", async (req, res) => {
     };
     await createGame(gameData);
     res.redirect("/games/catalog");
+});
+
+router.get("/details/:gameId", async (req, res) => {
+    const gameId = req.params.gameId;
+    const game = await getGame(gameId).lean();
+
+    res.render("game/details", { game });
 });
 
 module.exports = router;
