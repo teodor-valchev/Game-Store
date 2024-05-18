@@ -1,7 +1,11 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-router.get('/', (req, res) => {
-    res.render('home')
-})
+router.get("/", (req, res) => {
+    res.render("home");
+});
 
-module.exports = router
+router.get("/404", (req, res) => {
+    res.render("404");
+});
+
+module.exports = router;
