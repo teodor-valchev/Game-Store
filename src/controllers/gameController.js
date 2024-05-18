@@ -4,6 +4,7 @@ const {
     getGame,
     editGame,
     deleteGame,
+    buyGame,
 } = require("../services/gameService");
 
 const router = require("express").Router();
@@ -36,8 +37,9 @@ router.get("/details/:gameId", async (req, res) => {
     const gameId = req.params.gameId;
     const game = await getGame(gameId).lean();
     const isOwner = req.user?._id === game.owner.toString();
+    const isBoughtGame = game.boughtBy.some(game => game.toString().includes(req.user?._id)); 
 
-    res.render("game/details", { game, isOwner });
+    res.render("game/details", { game, isOwner, isBoughtGame });
 });
 
 router.get("/edit/:gameId", async (req, res) => {
@@ -71,6 +73,15 @@ router.get("/delete/:gameId", async (req, res) => {
     await deleteGame(gameId);
 
     res.redirect("/games/catalog");
+});
+
+router.get("/buy/:gameId", async (req, res) => {
+    const gameId = req.params.gameId;
+    const user = req.user._id;
+
+    await buyGame(gameId, user);
+
+    res.redirect(`/games/details/${gameId}`);
 });
 
 module.exports = router;
