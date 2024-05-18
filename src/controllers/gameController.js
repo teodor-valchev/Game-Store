@@ -38,8 +38,9 @@ router.get("/details/:gameId", async (req, res) => {
     const game = await getGame(gameId).lean();
     const isOwner = req.user?._id === game.owner.toString();
     const isBoughtGame = game.boughtBy.some(game => game.toString().includes(req.user?._id)); 
+    const isGuest = req.user !== undefined
 
-    res.render("game/details", { game, isOwner, isBoughtGame });
+    res.render("game/details", { game, isOwner, isBoughtGame, isGuest });
 });
 
 router.get("/edit/:gameId", async (req, res) => {
