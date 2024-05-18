@@ -7,6 +7,7 @@ const {
     editGame,
     deleteGame,
     buyGame,
+    searchGame,
 } = require("../services/gameService");
 
 const router = require("express").Router();
@@ -96,6 +97,12 @@ router.get("/buy/:gameId", isAuth, async (req, res) => {
     await buyGame(gameId, user);
 
     res.redirect(`/games/details/${gameId}`);
+});
+
+router.get("/search", isAuth, async (req, res) => {
+    const { text, platform } = req.query;
+    const games = await searchGame(text, platform);
+    res.render("game/search", { games });
 });
 
 module.exports = router;
