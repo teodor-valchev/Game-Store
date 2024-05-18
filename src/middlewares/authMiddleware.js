@@ -1,23 +1,23 @@
-const { SECRET } = require('../constants')
-const jwt = require('../utils/jwt')
+const { SECRET } = require("../constants");
+const jwt = require("../utils/jwt");
 
-exports.auth = async (req,res,next) => {
-    const token = req.cookies['auth']
-    
+exports.auth = async (req, res, next) => {
+    const token = req.cookies["auth"];
+
     if (token) {
-        const decodedToken = await jwt.verify(token, SECRET)
-        req.user = decodedToken
-        res.locals.isAuthenticated = true 
-        next()
+        const decodedToken = await jwt.verify(token, SECRET);
+        req.user = decodedToken;
+        res.locals.isAuthenticated = true;
+        next();
     } else {
-        next()
+        next();
     }
-}
+};
 
 exports.isAuth = (req, res, next) => {
-    const user = req.user
+    const user = req.user;
     if (!user) {
-        res.status(404).redirect('/users/login')
+        res.status(404).redirect("/users/login");
     }
-    next()
-}
+    next();
+};

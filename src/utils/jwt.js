@@ -1,5 +1,5 @@
 const util = require("util");
-const jsonWebtoken = require('jsonwebtoken');
+const jsonWebtoken = require("jsonwebtoken");
 
 const jwt = {
     sign: util.promisify(jsonWebtoken.sign),

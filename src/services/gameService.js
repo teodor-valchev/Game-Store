@@ -18,14 +18,14 @@ exports.searchGame = async (text, platform) => {
     const regex = new RegExp("^" + text, "i");
 
     if (!text && !platform) {
-        return games = Game.find({}).lean();
+        return (games = Game.find({}).lean());
     }
 
     if (text) {
-        return games = Game.find({ name: regex }).lean();
+        return (games = Game.find({ name: regex }).lean());
     }
 
     if (platform) {
-        return games = Game.find({ platform }).lean();
+        return (games = Game.find({ platform }).lean());
     }
 };

@@ -12,4 +12,4 @@ expressConfig(app);
 
 app.use(router);
 
-app.listen(PORT,dbConfig(), console.log(`Server is running on port: ${PORT}`));
+app.listen(PORT, dbConfig(), console.log(`Server is running on port: ${PORT}`));
