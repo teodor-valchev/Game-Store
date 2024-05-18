@@ -1,3 +1,4 @@
+const { extractErrorMessages } = require("../helpers/errorHandler");
 const { isAuth } = require("../middlewares/authMiddleware");
 const {
     createGame,
@@ -34,8 +35,7 @@ router.post("/create", isAuth, async (req, res) => {
         await createGame(gameData);
         res.redirect("/games/catalog");
     } catch (err) {
-        const errorMessages = err.errors;
-        console.log(errorMessages);
+        const errorMessages = extractErrorMessages(err);
         res.render("game/create", { errorMessages });
     }
 });
@@ -71,10 +71,14 @@ router.post("/edit/:gameId", isAuth, async (req, res) => {
         owner: req.user._id,
     };
     const gameId = req.params.gameId;
+    try {
+        await editGame(gameId, gameData);
 
-    await editGame(gameId, gameData);
-
-    res.redirect(`/games/details/${gameId}`);
+        res.redirect(`/games/details/${gameId}`);
+    } catch (err) {
+        const errorMessages = extractErrorMessages(err);
+        res.render("game/edit", { errorMessages });
+    }
 });
 
 router.get("/delete/:gameId", isAuth, async (req, res) => {
