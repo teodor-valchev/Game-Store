@@ -15,11 +15,11 @@ router.get("/catalog", async (req, res) => {
     res.render("game/catalog", { games });
 });
 
-router.get("/create",isAuth, (req, res) => {
+router.get("/create", isAuth, (req, res) => {
     res.render("game/create");
 });
 
-router.post("/create",isAuth, async (req, res) => {
+router.post("/create", isAuth, async (req, res) => {
     const { platform, name, image, price, genre, description } = req.body;
     const gameData = {
         platform,
@@ -30,16 +30,24 @@ router.post("/create",isAuth, async (req, res) => {
         description,
         owner: req.user._id,
     };
-    await createGame(gameData);
-    res.redirect("/games/catalog");
+    try {
+        await createGame(gameData);
+        res.redirect("/games/catalog");
+    } catch (err) {
+        const errorMessages = err.errors;
+        console.log(errorMessages);
+        res.render("game/create", { errorMessages });
+    }
 });
 
 router.get("/details/:gameId", async (req, res) => {
     const gameId = req.params.gameId;
     const game = await getGame(gameId).lean();
     const isOwner = req.user?._id === game.owner.toString();
-    const isBoughtGame = game.boughtBy.some(game => game.toString().includes(req.user?._id)); 
-    const isGuest = req.user !== undefined
+    const isBoughtGame = game.boughtBy.some((game) =>
+        game.toString().includes(req.user?._id)
+    );
+    const isGuest = req.user !== undefined;
 
     res.render("game/details", { game, isOwner, isBoughtGame, isGuest });
 });
