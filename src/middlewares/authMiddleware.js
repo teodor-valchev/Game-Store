@@ -13,3 +13,11 @@ exports.auth = async (req,res,next) => {
         next()
     }
 }
+
+exports.isAuth = (req, res, next) => {
+    const user = req.user
+    if (!user) {
+        res.status(404).redirect('/users/login')
+    }
+    next()
+}
